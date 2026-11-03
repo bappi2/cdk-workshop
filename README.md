@@ -67,6 +67,10 @@ Expected response:
 "Good Job mohammad!"
 ```
 
+## CI/ CD added 
+.github/workflows/ci.yml
+.github/workflows/cd.yml
+
 ## Cleanup
 
 - `cdk destroy` — delete the deployed workshop stack when finished
