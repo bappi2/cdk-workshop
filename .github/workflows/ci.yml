@@ -1,15 +1,13 @@
-name: CD
+name: CI
 
 on:
   pull_request:
     branches:
-      - main
-    types: [closed]
+    - main
 
 jobs:
   build:
-    if: github.event.pull_request.merged == true
-    name: Deploy AWS CDK Typescript Stack
+    name: Build and Test AWS CDK Typescript Stack
     runs-on: ubuntu-latest
     steps:
       - name: Initiated By User
@@ -27,8 +25,11 @@ jobs:
       - name: Build CDK Stack
         run: npm run build
 
-      - name: Deploy AWS CDK Stack
-        run: "npx cdk deploy CdkWorkhopStack --ci --require-approval never --no-asset-metadata"
+      - name: Run Unit Tests
+        run: npm run test
+
+      - name: Diff AWS CDK Stack
+        run: "npx cdk diff CdkWorkhopStack --ci --require-approval never --no-asset-metadata"
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
