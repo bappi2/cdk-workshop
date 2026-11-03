@@ -12,7 +12,7 @@ export class CdkWorkhopStack extends cdk.Stack {
     new lambda.Function(this, 'lambdaFucntion', {
       functionName: 'cdk-workshop-lambda-function',
       code: lambda.Code.fromAsset('dist/src'),
-      runtime: lambda.Runtime.NODEJS_18_X,
+      runtime: lambda.Runtime.NODEJS_24_X,
       handler: 'index.handler',
       timeout: cdk.Duration.seconds(30)
     });

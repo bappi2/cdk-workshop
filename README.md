@@ -23,7 +23,7 @@ import * as lambda from 'aws-cdk-lib/aws-lambda';
 new lambda.Function(this, 'lambdaFucntion', {
   functionName: 'cdk-workshop-lambda-function',
   code: lambda.Code.fromAsset('dist/src'),
-  runtime: lambda.Runtime.NODEJS_18_X,
+  runtime: lambda.Runtime.NODEJS_24_X,
   handler: 'index.handler',
   timeout: cdk.Duration.seconds(30)
 });
@@ -43,6 +43,8 @@ export const handler = async (event: { name: string }) => {
 ## Build and deploy
 
 With `"noEmit": false` and `"outDir": "dist"` in `tsconfig.json`, the build generates `dist/src/index.js`, which Lambda needs.
+
+In `cdk.json`, `"@aws-cdk/aws-lambda:useCdkManagedLogGroup": false` lets Lambda reuse its existing log group and avoids an `AlreadyExists` deployment error.
 
 - `npm run build`
 - `cdk diff`
