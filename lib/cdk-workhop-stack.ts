@@ -14,7 +14,8 @@ export class CdkWorkhopStack extends cdk.Stack {
       code: lambda.Code.fromAsset('dist/src'),
       runtime: lambda.Runtime.NODEJS_24_X,
       handler: 'index.handler',
-      timeout: cdk.Duration.seconds(30)
+      timeout: cdk.Duration.seconds(30),
+      memorySize: 128
     });
   }
 }
