@@ -1,14 +1,70 @@
 # Welcome to your CDK TypeScript project
 
-This is a blank project for CDK development with TypeScript.
+My notes for creating and deploying a Lambda function with AWS CDK and TypeScript.
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+The `cdk.json` file tells the CDK Toolkit how to execute the app.
 
-## Useful commands
+## Commands I have used for this project
 
-* `npm run build`   type-check the project
-* `npm run watch`   watch for changes and type-check
-* `npm run test`    perform the jest unit tests
-* `npx cdk deploy`  deploy this stack to your default AWS account/region
-* `npx cdk diff`    compare deployed stack with current state
-* `npx cdk synth`   emits the synthesized CloudFormation template
+- `npm install -g aws-cdk`
+- `cdk --version`
+- `npm install -g typescript`
+- `mkdir cdk-workshop && cd cdk-workshop`
+- `cdk init --language typescript`
+
+## Lambda stack
+
+In `lib/cdk-workhop-stack.ts`:
+
+```typescript
+import * as lambda from 'aws-cdk-lib/aws-lambda';
+
+// Inside the stack constructor
+new lambda.Function(this, 'lambdaFucntion', {
+  functionName: 'cdk-workshop-lambda-function',
+  code: lambda.Code.fromAsset('dist/src'),
+  runtime: lambda.Runtime.NODEJS_18_X,
+  handler: 'index.handler',
+  timeout: cdk.Duration.seconds(30)
+});
+```
+
+## Lambda handler
+
+In `src/index.ts`:
+
+```typescript
+export const handler = async (event: { name: string }) => {
+  const result: string = event.name ? `Good Job ${event.name}!` : 'Good Job';
+  return result;
+};
+```
+
+## Build and deploy
+
+With `"noEmit": false` and `"outDir": "dist"` in `tsconfig.json`, the build generates `dist/src/index.js`, which Lambda needs.
+
+- `npm run build`
+- `cdk diff`
+- `cdk bootstrap` — prepare the AWS account and Region before the first deployment
+- `cdk deploy`
+
+## Test the Lambda
+
+Open `cdk-workshop-lambda-function` in the AWS Lambda console and choose **Test** with this event:
+
+```json
+{
+  "name": "mohammad"
+}
+```
+
+Expected response:
+
+```json
+"Good Job mohammad!"
+```
+
+## Cleanup
+
+- `cdk destroy` — delete the deployed workshop stack when finished

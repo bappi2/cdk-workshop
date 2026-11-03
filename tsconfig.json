@@ -6,7 +6,7 @@
     "lib": [
       "es2022"
     ],
-    "declaration": true,
+    "declaration": false,
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
@@ -24,12 +24,13 @@
     "typeRoots": [
       "./node_modules/@types"
     ],
-    "noEmit": true,
+    "noEmit": false,
     "isolatedModules": true,
     "types": [
       "jest",
       "node"
-    ]
+    ],
+    "outDir": "dist"
   },
   "exclude": [
     "node_modules",
